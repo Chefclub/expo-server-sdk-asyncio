@@ -26,20 +26,18 @@ from aiohttp import ClientError
 
 # Basic arguments. You should extend this function with the push features you
 # want to use, or simply pass in a `PushMessage` object.
-async def send_push_message(token, message, extra=None):
+async def send_push_message(tokens, message, extra=None):
     client = PushClient()
     try:
-        response = await client.publish(
+        response = await client.publish_multiple([
             PushMessage(to=token,
                         body=message,
-                        data=extra))
+                        data=extra) for token in tokens])
     except PushServerError as exc:
         # Encountered some likely formatting/validation error.
         rollbar.report_exc_info(
             extra_data={
-                'token': token,
-                'message': message,
-                'extra': extra,
+                'tokens': tokens, 'message': message, 'extra': extra
                 'errors': exc.errors,
                 'response_data': exc.response_data,
             })
@@ -48,7 +46,7 @@ async def send_push_message(token, message, extra=None):
         # Encountered some Connection or HTTP error - retry a few times in
         # case it is transient.
         rollbar.report_exc_info(
-            extra_data={'token': token, 'message': message, 'extra': extra})
+            extra_data={'tokens': tokens, 'message': message, 'extra': extra})
         raise retry(exc=exc)
 
     try:
@@ -64,7 +62,7 @@ async def send_push_message(token, message, extra=None):
         # Encountered some other per-notification error.
         rollbar.report_exc_info(
             extra_data={
-                'token': token,
+                'tokens': tokens,
                 'message': message,
                 'extra': extra,
                 'push_response': exc.push_response._asdict(),
