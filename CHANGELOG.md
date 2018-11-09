@@ -1,5 +1,11 @@
 # Changelog
 
+0.4.0 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
 0.3.0 (2018-11-09)
 ------------------
 
