@@ -1,12 +1,8 @@
-from setuptools import find_packages
-from setuptools import setup
-import os
-import re
+from setuptools import find_packages, setup
 
+import os
 
 HERE = os.path.abspath(os.path.dirname(__file__))
-
-
 README_PATH = os.path.join(HERE, 'README.md')
 try:
     with open(README_PATH) as fd:
@@ -16,18 +12,17 @@ except IOError:
 
 
 setup(
-    name='exponent_server_sdk',
-    version='0.2.0',
-    description='Expo Server SDK for Python',
+    name='aioexponent',
+    version='0.3.0',
+    description='Expo Server SDK for Python Asyncio',
     long_description=README,
-    url='https://github.com/expo/exponent-server-sdk-python',
+    url='https://github.com/Chefclub/exponent-server-sdk-asyncio',
     author='Expo Team',
     author_email='exponent.team@gmail.com',
     license='MIT',
     install_requires=[
-        'requests',
-        'six',
+        'aiohttp',
     ],
     packages=find_packages(),
-    zip_safe=False
+    zip_safe=True
 )

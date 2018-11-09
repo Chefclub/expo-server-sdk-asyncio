@@ -1,11 +1,11 @@
-# exponent-server-sdk-python
+# aioexponent
 
-If you have problems with the code in this repository, please file issues & bug reports at https://github.com/expo/expo. Thanks!
+If you have problems with the code in this repository, please file an issue or a pull-request. Thanks!
 
 ## Installation
 
 ```
-pip install exponent_server_sdk
+pip install aioexponent
 ```
 
 ## Usage
@@ -16,20 +16,20 @@ Use to send push notifications to Exponent Experiences from a Python server.
 
 Here's an example on how to use this with retries and reporting via [pyrollbar](https://github.com/rollbar/pyrollbar).
 ```python
-from exponent_server_sdk import DeviceNotRegisteredError
-from exponent_server_sdk import PushClient
-from exponent_server_sdk import PushMessage
-from exponent_server_sdk import PushResponseError
-from exponent_server_sdk import PushServerError
-from requests.exceptions import ConnectionError
-from requests.exceptions import HTTPError
+from aioexponent import DeviceNotRegisteredError
+from aioexponent import PushClient
+from aioexponent import PushMessage
+from aioexponent import PushResponseError
+from aioexponent import PushServerError
+from aiohttp import ClientError
 
 
 # Basic arguments. You should extend this function with the push features you
 # want to use, or simply pass in a `PushMessage` object.
-def send_push_message(token, message, extra=None):
+async def send_push_message(token, message, extra=None):
+    client = PushClient()
     try:
-        response = PushClient().publish(
+        response = await client.publish(
             PushMessage(to=token,
                         body=message,
                         data=extra))
@@ -44,12 +44,12 @@ def send_push_message(token, message, extra=None):
                 'response_data': exc.response_data,
             })
         raise
-    except (ConnectionError, HTTPError) as exc:
+    except (ClientError) as exc:
         # Encountered some Connection or HTTP error - retry a few times in
         # case it is transient.
         rollbar.report_exc_info(
             extra_data={'token': token, 'message': message, 'extra': extra})
-        raise self.retry(exc=exc)
+        raise retry(exc=exc)
 
     try:
         # We got a response back, but we don't know whether it's an error yet.
@@ -69,5 +69,5 @@ def send_push_message(token, message, extra=None):
                 'extra': extra,
                 'push_response': exc.push_response._asdict(),
             })
-        raise self.retry(exc=exc)
+        raise retry(exc=exc)
 ```
