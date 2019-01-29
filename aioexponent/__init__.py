@@ -62,7 +62,7 @@ class PushMessage(
     def get_payload(self):
         # Sanity check for invalid push token format.
         if not PushClient.is_exponent_push_token(self.to):
-            raise ValueError("Invalid push token")
+            raise ValueError(f"Invalid push token: {self.to}")
 
         # There is only one required field.
         payload = {"to": self.to}
@@ -196,13 +196,15 @@ class PushClient(object):
             raise ValueError("push_messages should be an array of up to 100 messages")
 
         async with aiohttp.ClientSession() as client:
-            async with client.post(f"{self.host}{self.api_url}/push/send",
-                                   json=[pm.get_payload() for pm in push_messages],
-                                   headers={
-                                       "accept": "application/json",
-                                       "accept-encoding": "gzip, deflate",
-                                       "content-type": "application/json",
-                                   }) as response:
+            async with client.post(
+                f"{self.host}{self.api_url}/push/send",
+                json=[pm.get_payload() for pm in push_messages],
+                headers={
+                    "accept": "application/json",
+                    "accept-encoding": "gzip, deflate",
+                    "content-type": "application/json",
+                },
+            ) as response:
 
                 # Let's validate the response format first.
                 try:
@@ -234,7 +236,7 @@ class PushClient(object):
 
                 # Sanity check the response
                 if len(push_messages) != len(response_data["data"]):
-                    s = 's' if len(push_messages) > 1 else ''
+                    s = "s" if len(push_messages) > 1 else ""
                     raise PushServerError(
                         f"Mismatched response length. Expected {len(push_messages)} "
                         f"receipt{s} but only received {len(response_data['data'])}",

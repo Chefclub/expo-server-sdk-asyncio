@@ -3,7 +3,7 @@
 0.4.0 (unreleased)
 ------------------
 
-- Tell Pypi that the long description is in markdown.
+- Tell PyPI that the long description is in markdown.
 
 
 0.3.0 (2018-11-09)
