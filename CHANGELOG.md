@@ -1,5 +1,11 @@
 # Changelog
 
+0.5.0 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
 0.4.0 (2019-01-29)
 ------------------
 
