@@ -1,6 +1,6 @@
 # Changelog
 
-0.4.0 (unreleased)
+0.4.0 (2019-01-29)
 ------------------
 
 - Tell PyPI that the long description is in markdown.
