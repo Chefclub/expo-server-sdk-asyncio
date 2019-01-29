@@ -17,7 +17,7 @@ setup(
     description='Expo Server SDK for Python Asyncio',
     long_description=README,
     long_description_content_type='text/markdown',
-    url='https://github.com/Chefclub/exponent-server-sdk-asyncio',
+    url='https://github.com/Chefclub/expo-server-sdk-asyncio',
     author='Expo Team',
     author_email='exponent.team@gmail.com',
     license='MIT',
