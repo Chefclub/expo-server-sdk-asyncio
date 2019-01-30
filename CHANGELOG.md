@@ -1,9 +1,9 @@
 # Changelog
 
-0.6.0 (unreleased)
+0.5.1 (2019-01-30)
 ------------------
 
-- Nothing changed yet.
+- Release with markdown enabled.
 
 
 0.5.0 (2019-01-30)
