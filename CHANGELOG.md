@@ -1,5 +1,11 @@
 # Changelog
 
+0.6.0 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
 0.5.2 (2019-01-30)
 ------------------
 
