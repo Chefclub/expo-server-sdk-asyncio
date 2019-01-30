@@ -13,7 +13,7 @@ except IOError:
 
 setup(
     name='aioexponent',
-    version='0.5.0',
+    version='0.6.0.dev0',
     description='Expo Server SDK for Python Asyncio',
     long_description=README,
     long_description_content_type='text/markdown',
