@@ -3,7 +3,7 @@
 0.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add a PushMessage verify method.
 
 
 0.4.0 (2019-01-29)

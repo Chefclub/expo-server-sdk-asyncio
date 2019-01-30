@@ -59,10 +59,13 @@ class PushMessage(
 
     """
 
+    def verify(self):
+        if not isinstance(self.to, str) or not self.to.startswith("ExponentPushToken"):
+            raise ValueError(f"Invalid push token: {self.to}")
+
     def get_payload(self):
         # Sanity check for invalid push token format.
-        if not PushClient.is_exponent_push_token(self.to):
-            raise ValueError(f"Invalid push token: {self.to}")
+        self.verify()
 
         # There is only one required field.
         payload = {"to": self.to}
@@ -169,11 +172,6 @@ class PushClient(object):
         self.api_url = api_url
         if not self.api_url:
             self.api_url = PushClient.DEFAULT_BASE_API_URL
-
-    @classmethod
-    def is_exponent_push_token(cls, token):
-        """Returns `True` if the token is an Exponent push token"""
-        return isinstance(token, str) and token.startswith("ExponentPushToken")
 
     async def _publish_internal(self, push_messages):
         """Send push notifications
